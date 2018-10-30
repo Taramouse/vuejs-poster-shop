@@ -14,6 +14,7 @@ new Vue({
     addItem: function(index) {
       console.log(index);
       this.total += 9.99;
+      this.cart.push(this.items[index]);
     }
   }
 });

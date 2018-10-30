@@ -28,11 +28,18 @@
         </div>
         <div class="cart">
             <h2>Shopping Cart</h2>
-            <div>
-
-            </div>
-            <div>
+            <ul>
+                <li class="cart-item" v-for="item in cart">
+                    <div class="item-title">
+                            {{item.title}}
+                    </div>
+                </li>
+            </ul>
+            <div class="empty-cart" v-if="cart.length">
                 Total: {{ total }}
+            </div>
+            <div v-else>
+                No items in the cart.
             </div>
         </div>
     </div>
