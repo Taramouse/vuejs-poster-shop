@@ -1,3 +1,4 @@
+var PRICE = 9.99;
 new Vue({
   el: '#app',
   data: {
@@ -12,8 +13,8 @@ new Vue({
   },
   methods: {
     addItem: function(index) {
-      console.log(index);
-      this.total += 9.99;
+      // console.log(index);
+      this.total += PRICE;
       // this.cart.push(this.items[index]);
       var item = this.items[index];
       var found = false;
@@ -27,7 +28,8 @@ new Vue({
           this.cart.push({
           id: item.id,
           title: item.title,
-          qty: 1
+          qty: 1,
+          price: PRICE
         });
       }
     }
