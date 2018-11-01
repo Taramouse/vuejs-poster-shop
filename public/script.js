@@ -5,6 +5,7 @@ new Vue({
     total: 0,
     items: [],
     cart: [],
+    price: PRICE,
     newSearch: 'anime',
     lastSearch: '',
     loading: false
