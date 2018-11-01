@@ -18,13 +18,13 @@
     <div class="header">
         <h1>Vue.js Poster Store</h1>
         <form class="searchbar" v-on:submit.prevent="onSubmit">
-          <input v-model="search" placeholder="Search for posters" type="text">
+          <input v-model="newSearch" placeholder="Search for posters" type="text">
           <input class="btn" type="submit" value="search">
         </form>
     </div>
     <div class="main">
         <div class="products">
-          <div class="products">Search returned x results</div>
+          <div class="products">Found {{items.length}} results for search term {{lastSearch}}</div>
             <div class="product" v-for="(item, index) in items">
               <div>
                 <div class="product-image">
