@@ -1,6 +1,11 @@
 var PRICE = 9.99;
 var LOAD_NUM = 10;
 
+var pusher = new Pusher('790833c8de8a6cf9943f', {
+  cluster: 'eu',
+  encrypted: true
+})
+
 new Vue({
   el: '#app',
   data: {
@@ -102,5 +107,11 @@ new Vue({
     watcher.enterViewport(function() {
       _vueinstance.appendItems();
     });
+
+    // Pusher API
+    var channel = pusher.subscribe('cart')
+    channel.bind('update', function(data) {
+      console.log(data)
+    })
   }
 });
