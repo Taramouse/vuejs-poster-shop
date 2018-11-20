@@ -4,8 +4,16 @@ var path = require('path');
 var server = require('http').createServer(app);
 var axios = require('axios');
 var querystring = require('querystring');
+var Pusher = require('pusher');
 
 require('dotenv').config();
+
+var pusher = new Pusher({
+  appId: process.env.PUSHER_APP_ID,
+  key: process.env.PUSHER_KEY,
+  secret: process.env.PUSHER_SECRET,
+  cluster: process.env.PUSHER_CLUSTER
+});
 
 var bodyParser = require('body-parser');
 app.use( bodyParser.json() );
@@ -28,7 +36,10 @@ app.get('/search/:query', function(req, res) {
     .catch(function (error) {
       console.log(error);
     })
-  ;
+});
+
+app.post('/cart-update', function(req, res) {
+  pusher.trigger('cart', 'update', req.body);
 });
 
 app.use('/node_modules', express.static(path.join(__dirname, 'node_modules')));
@@ -36,7 +47,7 @@ app.use('/public', express.static(path.join(__dirname, 'public')));
 
 if (process.env.NODE_ENV !== 'production') {
   require('reload')(server, app);
-}
+};
 
 server.listen(process.env.PORT, function () {
   console.log('Listening on port '.concat(process.env.PORT))
