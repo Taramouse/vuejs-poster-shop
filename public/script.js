@@ -16,7 +16,8 @@ new Vue({
     price: PRICE,
     newSearch: 'anime',
     lastSearch: '',
-    loading: false
+    loading: false,
+    pusherUpdate: false
   },
   computed: {
     noMoreItems: function() {
@@ -26,7 +27,11 @@ new Vue({
   watch: {
     cart: {
       handler: function(val) {
-        this.$http.post('/cart-update', val)
+        if(!this.pusherUpdate) {
+          this.$http.post('/cart-update', val)
+        } else {
+          this.pusherUpdate = false
+        }
       },
       deep: true
 
@@ -100,18 +105,23 @@ new Vue({
     this.onSubmit();
 
     // Scroll reveal for product list.
-    var _vueinstance = this;
+    var vue = this;
     var elem = document.getElementById('product-list-bottom');
     var watcher = scrollMonitor.create(elem);
 
     watcher.enterViewport(function() {
-      _vueinstance.appendItems();
+      vue.appendItems();
     });
 
     // Pusher API
     var channel = pusher.subscribe('cart')
     channel.bind('update', function(data) {
-      console.log(data)
+      vue.pusherUpdate = true
+      vue.cart = data
+      vue.total = 0
+      for (var i = 0; i < vue.cart.length; i++) {
+        vue.total += PRICE * vue.cart[i].qty
+      }
     })
   }
 });
